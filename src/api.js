@@ -25,3 +25,21 @@ async function getUserFragments(user) {
   }
 }
 export {getUserFragments}
+
+export async function postUserFragments(user,textFrag, conType = "text/plain") {
+  //conType = document.getElementById("textFrag").type
+  console.log("\x1b[36m%s\x1b[0m", textFrag + ', '+ conType + ', ' + user.username + ' ' +document.getElementById("textFrag").type);
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments`, {
+      method: 'POST',
+      headers: user.authorizationHeaders(conType),
+      body: textFrag.buffer,
+    });
+    if (!res.ok) {
+      throw new Error(`{res.status} ${res.statusText}`);
+    }
+    return await res.json();
+  } catch (err) {
+    console.error("Unable to call POST /v1/fragments"+ err.message,{err});
+  }
+}

@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { getUserFragments } from './api';
+import { getUserFragments, postUserFragments } from './api';
 
 
 async function init() {
@@ -9,6 +9,10 @@ async function init() {
   const userSection = document.querySelector('#user');
   const loginBtn = document.querySelector('#login');
   const logoutBtn = document.querySelector('#logout');
+  const textFragmentBtn = document.querySelector('#textFragBtn')
+  const textFrag = document.querySelector('#textFrag')
+  const getFragsBtn =document.querySelector('#getFrags')
+
 
   // Wire up event handlers to deal with login and logout.
   loginBtn.onclick = () => {
@@ -43,8 +47,13 @@ async function init() {
   loginBtn.disabled = true;
 
   // Do an authenticated request to the fragments API server and log the result
-  getUserFragments(user)
-
+  //getUserFragments(user)
+  textFragmentBtn.onclick = () => {
+    postUserFragments(user,textFrag.value);
+   }
+   getFragsBtn.onclick = () => {
+     getUserFragments(user);
+    }
 }
 
 // Wait for the DOM to be ready, then start the app
