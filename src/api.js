@@ -43,3 +43,24 @@ export async function postUserFragments(user,textFrag, conType = "text/plain") {
     console.error("Unable to call POST /v1/fragments"+ err.message,{err});
   }
 }
+export async function getFragmentById(user, id) {
+  console.log('==== Requesting user fragments data by ' + id + ' ====');
+
+  try {
+    
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+            headers: user.authorizationHeaders(),
+          });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+
+    const data = await res.json();
+
+    console.log('Got user fragments data with given id', { data });
+
+    return { data };
+  } catch (err) {
+    console.log('Unable to call GET /v1/fragment/:id', { err });
+  }
+}

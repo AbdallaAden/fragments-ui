@@ -14,10 +14,18 @@
     <section hidden id="user">
       <h2>Hello <span class="username"></span>!</h2>
       <form action="">
-        <label for="textSubmission">Submit the text fragment here:</label><br />
-        <input id="textFrag"  type='text' name="textFrag"></input>
-        </form>
-        <button id="textFragBtn">Submit</button> <button id="getFrags">Get Frags</button>
+        <label for="textSubmission">Submit the text fragment here:</label>
+        <input id="textFrag"  type='text' name="textFrag"></input>       
+        <button id="textFragBtn" type="button">Submit</button> <button id="getFrags" type="button" >Get Frags</button><br></br>
+        
+        <label for="fragIdSubmission">Enter a fragment ID here:</label>
+        <input id="fragId"  type='text' name="fragId" required></input>        
+        <button id="getFragById" type="button">Get Fragment by ID</button><br></br>
+        
+        <pre>
+        <p class = "output" id="output1"></p>
+        </pre> 
+      </form>
       </section>
     </section>
   </body>

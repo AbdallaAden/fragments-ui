@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { getUserFragments, postUserFragments } from './api';
+import { getUserFragments, postUserFragments, getFragmentById } from './api';
 
 
 async function init() {
@@ -9,9 +9,17 @@ async function init() {
   const userSection = document.querySelector('#user');
   const loginBtn = document.querySelector('#login');
   const logoutBtn = document.querySelector('#logout');
+ 
   const textFragmentBtn = document.querySelector('#textFragBtn')
   const textFrag = document.querySelector('#textFrag')
   const getFragsBtn =document.querySelector('#getFrags')
+  
+  const FragmentByIdBtn = document.querySelector('#getFragById')
+  const FragId = document.querySelector('#fragId')
+
+  const out1 = document.getElementById('#output1')
+  let gotID;
+
 
 
   // Wire up event handlers to deal with login and logout.
@@ -51,9 +59,21 @@ async function init() {
   textFragmentBtn.onclick = () => {
     postUserFragments(user,textFrag.value);
    }
-   getFragsBtn.onclick = () => {
-     getUserFragments(user);
-    }
+   getFragsBtn.onclick = async () => {
+    gotID = await getUserFragments(user);
+    myDisplayer(gotID)
+    //document.getElementById("output1").innerHTML = JSON.stringify(gotID,null, "\t");
+   }
+   FragmentByIdBtn.onclick = async () => {
+    gotID = await getFragmentById(user,FragId.value)
+    //gotID = gotID.data.fragment
+   //myDisplayer(gotID)
+   document.getElementById("output1").innerHTML = JSON.stringify(gotID.data.fragment,null, "\t");
+  }
+  function myDisplayer(some) {
+    document.getElementById("output1").innerHTML = JSON.stringify(some,null, "\t");
+  }
+
 }
 
 // Wait for the DOM to be ready, then start the app
