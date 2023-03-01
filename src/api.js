@@ -33,7 +33,7 @@ export async function postUserFragments(user,textFrag, conType = "text/plain") {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       method: 'POST',
       headers: user.authorizationHeaders(conType),
-      body: textFrag.buffer,
+      body: textFrag,
     });
     if (!res.ok) {
       throw new Error(`{res.status} ${res.statusText}`);
