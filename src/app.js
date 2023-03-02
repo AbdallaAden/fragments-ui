@@ -10,6 +10,7 @@ async function init() {
   const loginBtn = document.querySelector('#login');
   const logoutBtn = document.querySelector('#logout');
  
+  const fragType = document.getElementById('fragmentType')
   const textFragmentBtn = document.querySelector('#textFragBtn')
   const textFrag = document.querySelector('#textFrag')
   const getFragsBtn =document.querySelector('#getFrags')
@@ -57,15 +58,17 @@ async function init() {
   // Do an authenticated request to the fragments API server and log the result
   //getUserFragments(user)
   textFragmentBtn.onclick = () => {
-    postUserFragments(user,textFrag.value);
+    console.log('frag type ' + fragType.value)
+    postUserFragments(user,textFrag.value,fragType.value);
    }
    getFragsBtn.onclick = async () => {
     gotID = await getUserFragments(user);
-    myDisplayer(gotID)
-    //document.getElementById("output1").innerHTML = JSON.stringify(gotID,null, "\t");
+    //myDisplayer(gotID)
+    document.getElementById("output1").innerHTML = JSON.stringify(gotID,null, "\t");
    }
    FragmentByIdBtn.onclick = async () => {
     gotID = await getFragmentById(user,FragId.value)
+    console.log(gotID.data.fragment)
     //gotID = gotID.data.fragment
    //myDisplayer(gotID)
    document.getElementById("output1").innerHTML = JSON.stringify(gotID.data.fragment,null, "\t");

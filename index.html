@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>Fragments UI</title>
     <link rel="stylesheet" href="https://unpkg.com/bamboo.css" />
+    <link rel="stylesheet" href="./src/styles.css">
     <script type="module" src="src/app.js"></script>
   </head>
   <body>
@@ -14,19 +15,39 @@
     <section hidden id="user">
       <h2>Hello <span class="username"></span>!</h2>
       <form action="">
-        <label for="textSubmission">Submit the text fragment here:</label>
-        <input id="textFrag" name="textFrag"></input>       
-        <button id="textFragBtn" type="button">Submit</button> <button id="getFrags" type="button" >Get Frags</button><br></br>
         
-        <label for="fragIdSubmission">Enter a fragment ID here:</label>
-        <input id="fragId"  type='text' name="fragId" required></input>        
-        <button id="getFragById" type="button">Get Fragment by ID</button><br></br>
+      <div id="firstSection"> 
+       <div id="dropDown">
+        <select id="fragmentType" name="fragmentType">
+            <option value="text/plain">text/plain</option>
+            <option value="text/markdown">text/markdown</option>
+            <option value="text/html">text/html</option>
+            <!-- <option value="application/json">application/json</option>
+            <option value="image/png">image/png</option>
+            <option value="image/jpeg">image/jpeg</option>
+            <option value="image/webp">image/webp</option>
+            <option value="image/gif">image/gif</option> -->
+          </select>          
+        </div>
+        <span>
+          <input id="textFrag" name="textFrag" placeholder="Submit the text fragment here:" required></input>
+          <button id="textFragBtn" type="button" >Submit</button> 
+        </span>
         
-        <pre>
+      </div></br>        
+         </form>
+         <form>
+        <input id="fragId" type='text' name="fragId" placeholder="Enter a fragment ID here:" required ></input>        
+        <button id="getFragById" type="submit">Get A Fragment by ID</button></br></br>
+        </form>
+      </section>
+        
+        <pre>         
         <p class = "output" id="output1"></p>
         </pre> 
-      </form>
-      </section>
-    </section>
+        <button id="getFrags" type="button" >Get All Fragments</button>
+        
+      
+   
   </body>
 </html>

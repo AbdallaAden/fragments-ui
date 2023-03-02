@@ -1,4 +1,44 @@
 h1 {
     color: hotpink;
-    font-family: cursive;
   }
+ 
+
+pre {
+  margin-bottom: 3px;
+  padding: 0px;
+}
+#textFrag, #fragId {
+  margin-bottom: 3px;
+}
+#textFrag{
+  width: 50%;
+}  
+
+#firstSection span {
+  height: 100%;
+  display: inline;
+  overflow: hidden;
+  padding-left: 0px
+} 
+
+#fragmentType{
+ height: 34;
+}
+
+select {
+  width: 120px;
+  margin-right: 10px;
+}
+ #dropDown {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  display: inline;    
+} 
+
+/* label {
+  margin-right: 10px;
+} */
+
+
+
