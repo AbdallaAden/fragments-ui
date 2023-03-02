@@ -63,18 +63,28 @@ async function init() {
    }
    getFragsBtn.onclick = async () => {
     gotID = await getUserFragments(user);
-    //myDisplayer(gotID)
-    document.getElementById("output1").innerHTML = JSON.stringify(gotID,null, "\t");
+    myDisplayer(gotID)
+    //document.getElementById("output1").innerHTML = JSON.stringify(gotID,null, "\t");
    }
    FragmentByIdBtn.onclick = async () => {
+    if(!FragId || FragId.value =="")  alert("Fragment ID section can't be empty")
+    else{
     gotID = await getFragmentById(user,FragId.value)
     console.log(gotID.data.fragment)
     //gotID = gotID.data.fragment
    //myDisplayer(gotID)
    document.getElementById("output1").innerHTML = JSON.stringify(gotID.data.fragment,null, "\t");
+   }
   }
-  function myDisplayer(some) {
-    document.getElementById("output1").innerHTML = JSON.stringify(some,null, "\t");
+  async function myDisplayer(some) {
+    console.log("some data : "+ some.fragments.length)
+    for (const key in some) {
+      if (Object.hasOwnProperty.call(some, key)) {
+        console.log(`${key}: ${some[key]}`);
+        document.getElementById("output1").innerHTML = JSON.stringify(some[key],null, "\t");
+      }
+    }
+    //
   }
 
 }
