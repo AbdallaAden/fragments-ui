@@ -1,5 +1,5 @@
 h1 {
-    color: hotpink;
+    color: #ff69b4;
   }
  
 
@@ -36,9 +36,29 @@ select {
   display: inline;    
 } 
 
-/* label {
-  margin-right: 10px;
-} */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
+table th, table td {
+  border: 1px solid #eceff4;
+  padding: 8px;
+  text-align: left;
+}
+
+
+table {
+  border-collapse: collapse;
+  color:white;
+}
+
+tr:nth-child(odd) {
+  background-color: rgb(44, 4, 219);
+}
+
+.empty-cell {
+  background-color: #eceff4;
+}
 
 
