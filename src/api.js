@@ -30,7 +30,7 @@ export async function  getUserFragments(user) {
 
 export async function postUserFragments(user,textFrag, conType) {
   //conType = document.getElementById("textFrag").type
-  console.log("\x1b[36m%s\x1b[0m", textFrag + ', '+ conType.value + ', ' + user.username + ' ' +document.getElementById("textFrag").type);
+  console.log("\x1b[36m%s\x1b[0m", textFrag + ', '+ conType + ', ' + user.username + ' ' +document.getElementById("textFrag").type);
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       method: 'POST',

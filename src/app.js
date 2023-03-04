@@ -92,6 +92,8 @@ async function init() {
           const keyCell = row.insertCell();
           const valueCell = row.insertCell();
           keyCell.innerText = key;
+          keyCell.style.fontWeight = "bold";
+          keyCell.style.padding = "8px";
           valueCell.innerText = some1[key];
           row.classList.add("fragment-row");
         }

@@ -3,15 +3,20 @@ h1 {
   }
  
 
-/* pre {
-  margin-bottom: 3px;
-  padding: 0px;
-} */
+ pre {
+  width: 110%;
+  display: flex; 
+  text-align: center;
+  justify-content: center;
+  position: relative;
+  right: 10px;
+
+} 
 #textFrag, #fragId {
   margin-bottom: 3px;
 }
 #textFrag{
-  width: 50%;
+  width: 62.5%;
 }  
 
 #firstSection span {
