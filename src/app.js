@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from "./auth";
-import { getUserFragments, postUserFragments, getFragmentById } from "./api";
+import { getUserFragments, postUserFragments, getFragmentById, getFragmentByIdInfo } from "./api";
 
 async function init() {
   // Get our UI elements
@@ -69,7 +69,7 @@ async function init() {
     if (!FragId || FragId.value == "")
       alert("Fragment ID section can't be empty");
     else {
-      gotID = await getFragmentById(user, FragId.value);
+      gotID = await getFragmentByIdInfo(user, FragId.value);
       console.log('calling single frag' + gotID);
       displaySingleFragment(gotID);
       //document.getElementById("output1").innerHTML = JSON.stringify(gotID.data.fragment,null, "\t");
