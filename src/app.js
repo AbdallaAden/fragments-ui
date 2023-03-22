@@ -201,6 +201,7 @@ function displaySingleFragment(fragment) {
   
 
   function displayMultipleFragments(fragments) {
+    console.log(JSON.stringify({fragments}) + ' display multiple')
     const table = document.createElement("table");
     table.border = "1";
     table.style.borderCollapse = "collapse";
@@ -221,8 +222,8 @@ function displaySingleFragment(fragment) {
       button.classList.add("view-btn");
       button.innerText = 'Show full fragment';
       button.onclick = async () => {
-        //console.log(fragment.id)
-        const singleFragment = await getFragmentById(user, fragment);
+        console.log(fragment)
+        const singleFragment = await getFragmentByIdInfo(user, fragment);
         console.log(singleFragment)
         displaySingleFragment(singleFragment);
       };
