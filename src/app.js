@@ -143,6 +143,18 @@ function displaySingleFragment(fragment) {
         });
         updatedbuttonCell.appendChild(updatedbutton);
       }
+      if (key === 'size') {
+        const deletebuttonCell = row.insertCell();
+        const deletebutton = document.createElement('button');
+        deletebutton.innerText = 'Delete Fragment';
+        deletebutton.addEventListener('click', async()  => {
+          const gotID = await getUserFragments(user,0)
+          console.log(gotID)
+          displayMultipleFragments(gotID);
+          console.log('Update Fragment', fragment.data.fragment.ownerId+' '+gotID);
+        });
+        deletebuttonCell.appendChild(deletebutton);
+      }
     }
   }
 
