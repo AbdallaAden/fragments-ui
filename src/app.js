@@ -140,6 +140,11 @@ function displaySingleFragment(fragment) {
           }
           else{
           console.log('Displaying Data', fragment.data.fragment.ownerId+' '+disData.data);
+          if(fragment.data.fragment.type==='application/json'){
+            let Jdata= JSON.stringify(disData.data, undefined,2)
+            displayD.textContent = Jdata;
+          }
+          else
           displayD.textContent = disData.data;
           }
         });
