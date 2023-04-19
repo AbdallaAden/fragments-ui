@@ -39,7 +39,7 @@ export async function postUserFragments(user,textFrag, conType) {
       body: textFrag,
     });
     if (!res.ok) {
-      throw new Error(`{res.status} ${res.statusText}`);
+      throw new Error(`${res.status} ${res.statusText}`);
     }
     return await res.json();
   } catch (err) {
@@ -48,27 +48,35 @@ export async function postUserFragments(user,textFrag, conType) {
 }
 export async function getFragmentById(user, id, ext = '') {
   console.log('==== Requesting user fragments data by ' + id + ' ====');
-
+let data
   try {
     if(ext.length!==0){
     const res = await fetch(`${apiUrl}/v1/fragments/${id}.${ext}`, {
             headers: user.authorizationHeaders(),
             user
           });
+          data = await res.text();
+          if (!res.ok) {
+            throw new Error(`${res.status} ${res.statusText}`);
+          }
     }
     else{
       const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
         headers: user.authorizationHeaders(),
         user
       });
+      data = await res.text();
+      /*const newData = await res.Content.ReadAsStringAsync();*/
+      console.log('new data: ',data)
+      if (!res.ok) {
+        throw new Error(`${res.status} ${res.statusText}`);
+      }
     }
-    if (!res.ok) {
-      throw new Error(`${res.status} ${res.statusText}`);
-    }
+   
 
-    const data = await res.json();
+    
 
-    console.log('Got user fragments data with given id', { data });
+    console.log('Got user fragments data with given id', {data});
 
     return { data };
   } catch (err) {
@@ -91,6 +99,48 @@ export async function getFragmentByIdInfo(user, id) {
 
     console.log('Got user fragments data with given id', { data });
 
+    return { data };
+  } catch (err) {
+    console.log('Unable to call GET /v1/fragment/:id', { err });
+  }
+}
+export async function deleteFragmentById(user, id) {
+  console.log('==== Deleting user fragments data by ' + id + ' ====');
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+      method: 'DELETE',
+      headers: user.authorizationHeaders(),
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    return { data };
+  } catch (err) {
+    console.log('Unable to call GET /v1/fragment/:id', { err });
+  }
+}
+export async function updateUserFragments(user, id, newData, conType) {
+  console.log('==== Updating user fragments data by ' + user + ' ====');
+  console.log('Update type is: ', conType)
+  console.log('Update id is: ', id)
+  console.log('Update data is: ', newData)
+
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+      method: "PUT",
+      headers: {
+      Authorization: `Bearer ${user.idToken}`,
+      "Content-type":conType
+      },
+      body: newData,
+    });
+    //console.log(res, 'res before if')
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.text();
+    console.log('data received from put update',data)
     return { data };
   } catch (err) {
     console.log('Unable to call GET /v1/fragment/:id', { err });

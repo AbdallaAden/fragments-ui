@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from "./auth";
-import { getUserFragments, postUserFragments, getFragmentById, getFragmentByIdInfo } from "./api";
+import { getUserFragments, postUserFragments, getFragmentById, getFragmentByIdInfo, deleteFragmentById,updateUserFragments } from "./api";
 
 async function init() {
   // Get our UI elements
@@ -18,6 +18,7 @@ async function init() {
   const FragId = document.querySelector("#fragId");
 
   const out1 = document.getElementById("#output1");
+  const displayD = document.getElementById("displayFrag")
   //var gotID;
 
   // Wire up event handlers to deal with login and logout.
@@ -83,6 +84,7 @@ function displaySingleFragment(fragment) {
   table.border = "1";
   table.style.borderCollapse = "collapse";
   table.style.background = "darkblue";
+  displayD.textContent = "";
   
  
   for (const key in fragment.data.fragment) {
@@ -112,22 +114,22 @@ function displaySingleFragment(fragment) {
         const idbutton = document.createElement('button');
         idbutton.innerText = 'Display Data';
         idbutton.addEventListener('click', async()  => {
-          const gotID = await getUserFragments(user,0)
-          console.log(gotID)
-          displayMultipleFragments(gotID);
-          console.log('Displaying Data', fragment.data.fragment.ownerId+' '+gotID);
+          const disData = await getFragmentById(user,fragment.data.fragment.id)
+          console.log('display data returned: ',disData.data)
+          //displayMultipleFragments(gotID);
+          console.log('Displaying Data', fragment.data.fragment.ownerId+' '+disData.data);
+          displayD.textContent = disData.data;
         });
         idbuttonCell.appendChild(idbutton);
       }
-      if (key === 'type') {
+      if (key === 'type' && fragment.data.fragment.type === 'text/markdown') {
         const typebuttonCell = row.insertCell();
         const typebutton = document.createElement('button');
         typebutton.innerText = 'Convert type';
         typebutton.addEventListener('click', async()  => {
-          const gotID = await getUserFragments(user,0)
-          console.log(gotID)
-          displayMultipleFragments(gotID);
-          console.log('Converting type', fragment.data.fragment.ownerId+' '+gotID);
+          const convertedData = await getFragmentById(user,fragment.data.fragment.id, 'html')
+          console.log('Converted data from app.js: ',convertedData)
+          displayD.textContent = convertedData.data;
         });
         typebuttonCell.appendChild(typebutton);
       }
@@ -136,10 +138,24 @@ function displaySingleFragment(fragment) {
         const updatedbutton = document.createElement('button');
         updatedbutton.innerText = 'Update Fragment';
         updatedbutton.addEventListener('click', async()  => {
-          const gotID = await getUserFragments(user,0)
+          var e = document.createElement('input');
+          e.type='text';
+          e.name = 'added'+this.rel;
+          this.rel = parseFloat(this.rel)+1;
+          displayD.appendChild(e);
+          const subUpButton= document.createElement('button')
+          subUpButton.innerText = 'Click to update';
+          displayD.appendChild(subUpButton)
+          subUpButton.addEventListener('click', async()  => {
+            console.log('e value: ', e.value)
+           const updatedData= await updateUserFragments(user,fragment.data.fragment.id,e.value,fragment.data.fragment.type)
+            console.log('Updated data from app.js: ',updatedData)
+            displayD.textContent = updatedData.data;
+          })
+          /*const gotID = await getUserFragments(user,0)
           console.log(gotID)
           displayMultipleFragments(gotID);
-          console.log('Update Fragment', fragment.data.fragment.ownerId+' '+gotID);
+          console.log('Update Fragment', fragment.data.fragment.ownerId+' '+gotID);*/
         });
         updatedbuttonCell.appendChild(updatedbutton);
       }
@@ -148,10 +164,12 @@ function displaySingleFragment(fragment) {
         const deletebutton = document.createElement('button');
         deletebutton.innerText = 'Delete Fragment';
         deletebutton.addEventListener('click', async()  => {
-          const gotID = await getUserFragments(user,0)
-          console.log(gotID)
+          console.log('from the delete button ====', fragment.data.fragment.id)
+          const localId= fragment.data.fragment.id
+          await deleteFragmentById(user,fragment.data.fragment.id)
+          alert('deleted: '+localId)
+          gotID = await getUserFragments(user,0);
           displayMultipleFragments(gotID);
-          console.log('Update Fragment', fragment.data.fragment.ownerId+' '+gotID);
         });
         deletebuttonCell.appendChild(deletebutton);
       }
@@ -164,52 +182,6 @@ function displaySingleFragment(fragment) {
 }
 
 
-  function myDisplayer(some) {
-    console.log(Object.keys(some).length);
-    document.getElementById("output1").innerHTML = "";
-    const table = document.createElement("table");
-    table.border = "1";
-    table.style.borderCollapse = "collapse";
-    table.style.background = "darkblue";
-
-    some.fragments.forEach((fragment) => {
-        for (const key in fragment) {
-          if (Object.hasOwnProperty.call(fragment, key)) {
-            const dataRow = table.insertRow();
-            const headerCell = dataRow.insertCell();
-            headerCell.innerText = key;
-            headerCell.style.fontWeight = "bold";
-            headerCell.style.padding = "8px";
-            const dataCell = dataRow.insertCell();
-            dataCell.innerText = fragment[key];
-            dataCell.style.padding = "8px";
-            if (key === 'ownerId') {
-              const userbuttonCell = dataRow.insertCell();
-              const userbutton = document.createElement('button');
-              userbutton.innerText = 'Find All by user';
-              userbutton.addEventListener('click', async()  => {
-                const gotID = await getUserFragments(user,1)
-                console.log(gotID)
-                myDisplayer(gotID);
-                console.log('Edit button clicked for userId', fragment.ownerId+' '+gotID);
-              });
-              userbuttonCell.appendChild(userbutton);
-            }
-          }
-        }
-        // Create an empty row after the 'size' row
-        const emptyRow = table.insertRow();
-        const emptyCell = emptyRow.insertCell();
-        emptyCell.classList.add("empty-cell");
-        emptyCell.colSpan = Object.keys(some.fragments[0]).length;
-
-        if (Object.keys(fragment).length === 0) {
-          const emptyCell = dataRow.insertCell();
-          emptyCell.classList.add("empty-cell");
-        }
-      });
-    }
-   
   
 
   function displayMultipleFragments(fragments) {
@@ -218,6 +190,7 @@ function displaySingleFragment(fragment) {
     table.border = "1";
     table.style.borderCollapse = "collapse";
     table.style.background = "darkblue";
+    displayD.innerHTML = "";
   
     // Create header row
     const headerRow = table.insertRow();
