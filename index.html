@@ -27,13 +27,16 @@
             <option value="image/jpeg">image/jpeg</option>
             <option value="image/webp">image/webp</option>
             <option value="image/gif">image/gif</option> -->
-          </select>          
+          </select>
+            
         </div>
         <span>
           <input id="textFrag" name="textFrag" placeholder="Submit the text fragment here:" ></input>
           <button id="textFragBtn" type="button" >Submit</button> 
         </span>
         
+        <input type="file" id="image" name="image" placeholder="Upload Image:" /><button id="imgFragBtn" type="button" >Submit</button> 
+        <br /><br />        
       </div></br>    
        <input id="fragId" type='text' name="fragId" placeholder="Enter a fragment ID here:"  ></input>        
         <button id="getFragById" type="button">Get A Fragment by ID</button></br></br>    
@@ -47,10 +50,9 @@
        
         <div>
           <h3>Fragment Display</h3>
-        <section id="displayFrag" style="border:5px solid gray; padding:10px; margin-bottom: 50px">          
-                
-        </section>
-      </div>
+        <section id="displayFrag" accepts="image/*" style="border:5px solid gray; padding:10px; margin-bottom: 50px" placeholder="fragment text"> 
+        </section>    
+      </div>     
    
   </body>
 </html>

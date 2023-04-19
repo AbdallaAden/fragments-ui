@@ -19,6 +19,10 @@ async function init() {
 
   const out1 = document.getElementById("#output1");
   const displayD = document.getElementById("displayFrag")
+  //const imgDis = document.querySelector('img')
+  const getImg =document.getElementById("image")
+  const imageFragmentBtn = document.querySelector("#imgFragBtn");
+
   //var gotID;
 
   // Wire up event handlers to deal with login and logout.
@@ -58,6 +62,15 @@ async function init() {
   textFragmentBtn.onclick = () => {
     console.log("frag type " + fragType.value);
     postUserFragments(user, textFrag.value, fragType.value);
+  };
+  imageFragmentBtn.onclick = () => {
+    const imgType= getImg.value.split('.').pop()
+    if (imgType!== 'jpg' && imgType!== 'jpeg' && imgType!== 'png' && imgType!== 'webp' && imgType!== 'gif')
+    alert('invalid image type')
+    var newType = 'image/'+getImg.value.split('.').pop()
+    if (newType=='image/jpg') newType = 'image/jpeg'
+    console.log("frag type " + newType);
+    postUserFragments(user, getImg.files[0], newType);
   };
 
   getFragsBtn.onclick = async () => {
@@ -116,9 +129,19 @@ function displaySingleFragment(fragment) {
         idbutton.addEventListener('click', async()  => {
           const disData = await getFragmentById(user,fragment.data.fragment.id)
           console.log('display data returned: ',disData.data)
-          //displayMultipleFragments(gotID);
+          if(fragment.data.fragment.type.startsWith('image/')){
+            const img = URL.createObjectURL(disData.data)
+            console.log('image returned: ',img)
+            const imgDis = document.createElement('img');
+            imgDis.src = img;
+            imgDis.alt = 'Image Fragment';
+            displayD.innerHTML = '';
+            displayD.appendChild(imgDis);
+          }
+          else{
           console.log('Displaying Data', fragment.data.fragment.ownerId+' '+disData.data);
           displayD.textContent = disData.data;
+          }
         });
         idbuttonCell.appendChild(idbutton);
       }
@@ -133,7 +156,7 @@ function displaySingleFragment(fragment) {
         });
         typebuttonCell.appendChild(typebutton);
       }
-      if (key === 'updated') {
+      if (key === 'updated' && !fragment.data.fragment.type.startsWith('image/')) {
         const updatedbuttonCell = row.insertCell();
         const updatedbutton = document.createElement('button');
         updatedbutton.innerText = 'Update Fragment';

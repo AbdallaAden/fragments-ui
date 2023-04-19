@@ -31,7 +31,7 @@ export async function  getUserFragments(user, expand = 0) {
 
 export async function postUserFragments(user,textFrag, conType) {
   //conType = document.getElementById("textFrag").type
-  console.log("\x1b[36m%s\x1b[0m", textFrag + ', '+ conType + ', ' + user.username + ' ' +document.getElementById("textFrag").type);
+  console.log("\x1b[36m%s\x1b[0m", textFrag + ', '+ conType + ', ' + user.username + ' ');
   try {
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       method: 'POST',
@@ -55,7 +55,13 @@ let data
             headers: user.authorizationHeaders(),
             user
           });
+          if (res.headers.get('content-type').startsWith('application/json'))
+          data = await res.json();
+          else if(res.headers.get('content-type').startsWith('text/')) 
           data = await res.text();
+          else
+          data = await res.blob();
+          
           if (!res.ok) {
             throw new Error(`${res.status} ${res.statusText}`);
           }
@@ -65,7 +71,12 @@ let data
         headers: user.authorizationHeaders(),
         user
       });
-      data = await res.text();
+          if (res.headers.get('content-type').startsWith('application/json'))
+          data = await res.json();
+          else if(res.headers.get('content-type').startsWith('text/')) 
+          data = await res.text();
+          else
+          data = await res.blob();
       /*const newData = await res.Content.ReadAsStringAsync();*/
       console.log('new data: ',data)
       if (!res.ok) {

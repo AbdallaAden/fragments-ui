@@ -18,6 +18,10 @@ h1 {
 #textFrag{
   width: 62.5%;
 }  
+#image{
+  width: 62.5%;
+  margin-right: 3.5;
+}  
 
 #firstSection span {
   height: 100%;
